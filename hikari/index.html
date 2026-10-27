@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ネット回線お悩み診断(下書き)|陽 アケル</title>
+<meta name="description" content="5つの質問に答えると、光回線とホームルーターのどちらから確かめるとよいかがわかる診断です。">
+<style>
+  :root { --text:#1a1a1a; --sub:#555; --line:#ccc; --bg:#fff; --box:#f4f4f4; --link:#0645ad; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text:#eee; --sub:#bbb; --line:#555; --bg:#161616; --box:#242424; --link:#8ab4f8; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+    font-size:19px; line-height:1.8; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.45em; line-height:1.45; margin:0 0 8px; }
+  h2 { font-size:1.2em; border-bottom:2px solid var(--text); padding-bottom:4px; margin:36px 0 12px; }
+  .sub { color:var(--sub); font-size:.9em; margin:0; }
+  .box { background:var(--box); border-left:6px solid var(--text); padding:12px 16px; margin:16px 0; }
+  .box p { margin:.3em 0; }
+  fieldset { border:1px solid var(--line); border-radius:8px; margin:16px 0; padding:8px 16px 12px; }
+  legend { font-weight:700; padding:0 6px; }
+  label { display:block; padding:6px 0; cursor:pointer; }
+  input[type=radio] { width:1.1em; height:1.1em; margin-right:.5em; }
+  button { background:var(--text); color:var(--bg); border:0; font:inherit; font-weight:700; padding:14px 22px; border-radius:8px; cursor:pointer; }
+  #result { display:none; }
+  a { color:var(--link); word-break:break-all; }
+  ul, ol { padding-left:1.3em; } li { margin:.45em 0; }
+  footer { margin-top:56px; border-top:1px solid var(--line); padding-top:12px; color:var(--sub); font-size:.85em; }
+</style>
+</head>
+<body>
+<main>
+  <p class="sub">陽 アケル</p>
+  <h1>ネット回線お悩み診断</h1>
+  <p class="sub">5つの質問で、「光回線」と「ホームルーター」のどちらから確かめるとよいかがわかります</p>
+
+  <div class="box">
+    <p><strong>広告(PR)について:</strong>このページには、広告(アフィリエイト)リンクを含みます。リンク先で申し込みがあると、運営者に報酬が入ることがあります。診断の結果は、報酬の有無では変えていません。</p>
+    <p>このページはAIを使って作り、運営者が内容を確認しています。料金や速度は、契約前に必ず各社の公式ページで確かめてください。</p>
+  </div>
+
+  <form id="quiz">
+    <fieldset><legend>Q1 住まいは?</legend>
+      <label><input type="radio" name="q1" value="h"> 持ち家、または工事を頼める賃貸</label>
+      <label><input type="radio" name="q1" value="r"> 工事ができない・したくない賃貸</label>
+      <label><input type="radio" name="q1" value="u"> わからない</label>
+    </fieldset>
+    <fieldset><legend>Q2 いちばん大事なことは?</legend>
+      <label><input type="radio" name="q2" value="h"> 速度と安定(在宅ワーク・ゲーム・大きな動画)</label>
+      <label><input type="radio" name="q2" value="r"> 申し込みの手軽さ・すぐ使えること</label>
+      <label><input type="radio" name="q2" value="u"> 月額をできるだけ下げたい</label>
+    </fieldset>
+    <fieldset><legend>Q3 いつ引っ越す予定ですか?</legend>
+      <label><input type="radio" name="q3" value="h"> 当面ない(2年以上は住む)</label>
+      <label><input type="radio" name="q3" value="r"> 1年以内に引っ越すかもしれない</label>
+    </fieldset>
+    <fieldset><legend>Q4 使う人は?</legend>
+      <label><input type="radio" name="q4" value="h"> 3人以上、または同時に動画・通話を使う</label>
+      <label><input type="radio" name="q4" value="r"> 1〜2人</label>
+    </fieldset>
+    <fieldset><legend>Q5 契約の縛りは?</legend>
+      <label><input type="radio" name="q5" value="h"> 長く使うので、縛りがあってもよい</label>
+      <label><input type="radio" name="q5" value="r"> 縛りは短い・ないほうがよい</label>
+    </fieldset>
+    <button type="submit">診断する</button>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <h2>診断の結果</h2>
+    <p id="result-title"></p>
+    <div id="result-body"></div>
+    <h2>申し込む前に確かめること</h2>
+    <ul>
+      <li>月額だけでなく、初期費用・工事費・事務手数料の合計</li>
+      <li>契約期間と、途中でやめたときの違約金・機器の返却</li>
+      <li>キャッシュバックの条件(受け取り時期・申請の期限)</li>
+      <li>住所で使えるか(提供エリアは公式ページで確認)</li>
+      <li>速度は「最大」の値で、実際の速さを約束するものではないこと</li>
+    </ul>
+    <h2>回線を比べるリンク</h2>
+    <p class="sub">※広告(PR)。準備中です。</p>
+    <ul id="links"><li>(アフィリエイト承認後に、公式ページへのリンクを入れます)</li></ul>
+  </section>
+
+  <footer>
+    <p>運営:陽 アケル(個人)。診断は目安です。契約の判断は、各社の最新の公式情報でお願いします。</p>
+  </footer>
+</main>
+<script>
+(function () {
+  var form = document.getElementById("quiz");
+  var result = document.getElementById("result");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var h = 0, r = 0;
+    ["q1","q2","q3","q4","q5"].forEach(function (n) {
+      var el = form.querySelector("input[name=" + n + "]:checked");
+      if (!el) return;
+      if (el.value === "h") h++; else if (el.value === "r") r++;
+    });
+    var title, body;
+    if (h >= r + 2) {
+      title = "光回線から確かめるのがおすすめです";
+      body = "<p>速度と安定を重視し、長く住む予定なので、光回線が合いやすい組み合わせです。工事が必要になることがあるので、持ち家か、工事の許可が取れるかを先に確認しましょう。</p>";
+    } else if (r >= h + 2) {
+      title = "ホームルーターから確かめるのがおすすめです";
+      body = "<p>工事なしで手軽に始めたい、引っ越しの可能性がある場合は、ホームルーターが合いやすい組み合わせです。場所や時間帯で速度が変わることがあるので、お試し期間や解約の条件を確認しましょう。</p>";
+    } else {
+      title = "どちらも比べてから決めるのがおすすめです";
+      body = "<p>光回線とホームルーターのどちらにも当てはまる点があります。月額の総額、契約期間、住所で使えるかの3つを、両方で並べて比べてみましょう。</p>";
+    }
+    document.getElementById("result-title").innerHTML = "<strong>" + title + "</strong>";
+    document.getElementById("result-body").innerHTML = body;
+    result.style.display = "block";
+    result.scrollIntoView({ behavior: "smooth" });
+  });
+})();
+</script>
+</body>
+</html>
