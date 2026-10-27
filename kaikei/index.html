@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>クラウド会計ソフト選び診断(下書き)|陽 アケル</title>
+<meta name="description" content="5つの質問に答えると、会計ソフトを選ぶときの見るポイントがわかる診断です。">
+<style>
+  :root { --text:#1a1a1a; --sub:#555; --line:#ccc; --bg:#fff; --box:#f4f4f4; --link:#0645ad; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text:#eee; --sub:#bbb; --line:#555; --bg:#161616; --box:#242424; --link:#8ab4f8; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+    font-size:19px; line-height:1.8; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.45em; line-height:1.45; margin:0 0 8px; }
+  h2 { font-size:1.2em; border-bottom:2px solid var(--text); padding-bottom:4px; margin:36px 0 12px; }
+  .sub { color:var(--sub); font-size:.9em; margin:0; }
+  .box { background:var(--box); border-left:6px solid var(--text); padding:12px 16px; margin:16px 0; }
+  .box p { margin:.3em 0; }
+  fieldset { border:1px solid var(--line); border-radius:8px; margin:16px 0; padding:8px 16px 12px; }
+  legend { font-weight:700; padding:0 6px; }
+  label { display:block; padding:6px 0; cursor:pointer; }
+  input[type=radio] { width:1.1em; height:1.1em; margin-right:.5em; }
+  button { background:var(--text); color:var(--bg); border:0; font:inherit; font-weight:700; padding:14px 22px; border-radius:8px; cursor:pointer; }
+  #result { display:none; }
+  a { color:var(--link); word-break:break-all; }
+  ul, ol { padding-left:1.3em; } li { margin:.45em 0; }
+  footer { margin-top:56px; border-top:1px solid var(--line); padding-top:12px; color:var(--sub); font-size:.85em; }
+</style>
+</head>
+<body>
+<main>
+  <p class="sub">陽 アケル</p>
+  <h1>クラウド会計ソフト選び診断</h1>
+  <p class="sub">3つの質問で、会計ソフトを比べるときに何を重視するとよいかがわかります</p>
+
+  <div class="box">
+    <p><strong>広告(PR)について:</strong>このページには、広告(アフィリエイト)リンクを含みます。リンク先で申し込みがあると、運営者に報酬が入ることがあります。診断の結果は、報酬の有無では変えていません。</p>
+    <p>このページはAIを使って作り、運営者が内容を確認しています。料金や機能は、契約前に必ず各社の公式ページで確かめてください。</p>
+  </div>
+
+  <form id="quiz">
+    <fieldset><legend>Q1 帳簿づけの経験は?</legend>
+      <label><input type="radio" name="q1" value="a"> ほとんどない。簿記も知らない</label>
+      <label><input type="radio" name="q1" value="b"> 家計簿やエクセルならつけている</label>
+    </fieldset>
+    <fieldset><legend>Q2 いちばん手間を減らしたいことは?</legend>
+      <label><input type="radio" name="q2" value="a"> 入力そのもの(銀行・カードと連携して自動で取り込みたい)</label>
+      <label><input type="radio" name="q2" value="b"> 申告書づくり(確定申告の画面を、案内どおりに進めたい)</label>
+    </fieldset>
+    <fieldset><legend>Q3 今の状況は?</legend>
+      <label><input type="radio" name="q3" value="a"> 副業を始めたばかり。収入は小さい</label>
+      <label><input type="radio" name="q3" value="b"> 取引が多い、または人を雇う・請求書を出す予定がある</label>
+    </fieldset>
+    <button type="submit">診断する</button>
+  </form>
+
+  <section id="result" aria-live="polite">
+    <h2>診断の結果</h2>
+    <p id="result-title"></p>
+    <div id="result-body"></div>
+    <h2>申し込む前に確かめること</h2>
+    <ul>
+      <li>無料で使える範囲と、有料になる条件(料金は公式ページで)</li>
+      <li>使いたい銀行・カード・決済サービスに対応しているか</li>
+      <li>確定申告の書類(青色申告か白色申告か)に対応しているか</li>
+      <li>やめたときに、データを取り出せるか</li>
+    </ul>
+    <div class="box"><p>このページは、ソフトの機能や選び方の目安です。あなたの税額や節税の相談には、お答えできません。申告の中身は、国税庁の案内や税理士にご相談ください。</p></div>
+    <h2>会計ソフトを比べるリンク</h2>
+    <p class="sub">※広告(PR)。準備中です。</p>
+    <ul id="links"><li>(アフィリエイト承認後に、公式ページへのリンクを入れます)</li></ul>
+  </section>
+
+  <footer>
+    <p>運営:陽 アケル(個人)。診断は目安です。契約の判断は、各社の最新の公式情報でお願いします。</p>
+  </footer>
+</main>
+<script>
+(function () {
+  var form = document.getElementById("quiz");
+  var result = document.getElementById("result");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var pts = [];
+    ["q1","q2","q3"].forEach(function (n) {
+      var el = form.querySelector("input[name=" + n + "]:checked");
+      if (el) pts.push(el.value);
+    });
+    var a = pts.filter(function (v) { return v === "a"; }).length;
+    var title, body;
+    if (a >= 2) {
+      title = "「やさしさ」と「自動取り込み」を重視して比べましょう";
+      body = "<p>簿記を知らなくても使える案内の丁寧さと、銀行・カードの自動取り込みの対応を、まず見るとよいタイプです。無料のお試しで、画面が自分に合うかを確かめましょう。</p>";
+    } else {
+      title = "「機能の広さ」と「拡張性」を重視して比べましょう";
+      body = "<p>請求書・取引の多さ・将来の事業の広がりに対応できるかを、まず見るとよいタイプです。料金プランの違い(どこから有料か)を、公式ページで並べて比べましょう。</p>";
+    }
+    document.getElementById("result-title").innerHTML = "<strong>" + title + "</strong>";
+    document.getElementById("result-body").innerHTML = body;
+    result.style.display = "block";
+    result.scrollIntoView({ behavior: "smooth" });
+  });
+})();
+</script>
+</body>
+</html>
