@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>スキマ時間タイプ診断|陽 アケル</title>
+<meta name="description" content="5つの質問に答えるだけで、あなたに合った「1日15分」の使い方がわかる、スキマ時間タイプ診断です。">
+<style>
+  :root { --text:#1a1a1a; --sub:#555; --line:#ccc; --bg:#fff; --box:#f4f4f4; --link:#0645ad; --accent:#B45309; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text:#eee; --sub:#bbb; --line:#555; --bg:#161616; --box:#242424; --link:#8ab4f8; --accent:#f0a860; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+    font-size:19px; line-height:1.8; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:1.45em; line-height:1.45; margin:0 0 8px; }
+  h2 { font-size:1.2em; border-bottom:2px solid var(--text); padding-bottom:4px; margin:36px 0 12px; }
+  .sub { color:var(--sub); font-size:.9em; margin:0; }
+  a { color:var(--link); }
+  .box { background:var(--box); border-left:6px solid var(--accent); padding:12px 16px; margin:16px 0; }
+  .box p { margin:.3em 0; }
+  .q { margin:20px 0; }
+  .q p { font-weight:700; margin:0 0 6px; }
+  .q label { display:block; border:1px solid var(--line); border-radius:8px; padding:10px 14px; margin:8px 0; cursor:pointer; }
+  .q input { margin-right:8px; transform:scale(1.2); }
+  button { font:inherit; font-weight:700; background:var(--text); color:var(--bg); border:0; border-radius:8px; padding:14px 22px; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--text); border:1px solid var(--line); }
+  #result[hidden], #quiz[hidden], #msg[hidden] { display:none; }
+  #msg { color:#b00020; }
+  ol, ul { padding-left:1.3em; } li { margin:.45em 0; }
+  .buy { margin:20px 0; }
+  .buy a { display:inline-block; background:var(--text); color:var(--bg); text-decoration:none; font-weight:700; padding:14px 22px; border-radius:8px; }
+  footer { margin-top:56px; border-top:1px solid var(--line); padding-top:12px; color:var(--sub); font-size:.85em; }
+</style>
+</head>
+<body>
+<main>
+  <p class="sub">陽 アケルの読者ページ</p>
+  <h1>あなたのスキマ時間タイプ診断</h1>
+  <p class="sub">5つの質問・約1分・入力した内容はどこにも送られません</p>
+
+  <div class="box">
+    <p>忙しい40代・50代が、まとまった時間を待たずに「1日15分」を見つけるための診断です。答えに正解はありません。いまの生活に近いものを選んでください。</p>
+  </div>
+
+  <form id="quiz"></form>
+  <p id="msg" hidden>答えていない質問があります。</p>
+  <p><button type="button" id="go">結果を見る</button></p>
+
+  <section id="result" hidden>
+    <h2 id="rtitle"></h2>
+    <p id="rdesc"></p>
+    <p><strong>おすすめの「1日15分」</strong></p>
+    <ol id="rideas"></ol>
+    <div class="box"><p id="rnote"></p></div>
+    <div class="buy" id="book"></div>
+    <p><button type="button" class="ghost" id="again">もう一度やってみる</button></p>
+  </section>
+
+  <footer>
+    <p id="aff" hidden>本ページにはAmazonアソシエイト・プログラムのリンクを含みます。</p>
+    <p>この診断は目安であり、医療・投資・税務などの個別の判断はしていません。成果や収入を約束するものではありません。</p>
+    <p>本とこのページの作成には、AI(Claude)を使っています。内容は著者が確かめています。</p>
+    <p>著者:陽 アケル ・ <a href="../">ほかの読者ページ</a></p>
+  </footer>
+</main>
+<script>
+// 本のAmazonリンク。販売開始後に BOOK_URL を入れる。アソシエイト登録後は、リンクにトラッキングIDを付ける。
+var BOOK_URL = "";
+var BOOK_TITLE = "40代・50代の「スキマ時間」活用術 1日15分を集めて、年間200時間を生み出す";
+
+var QS = [
+  { t:"平日、ひとりで過ごせる時間がいちばん取れるのは?", a:[["朝、家を出る前","morning"],["通勤の電車やバスの中","commute"],["昼休み","lunch"],["夜、寝る前","night"]] },
+  { t:"通勤にかかる時間は、片道でどれくらい?", a:[["ほぼ0分(在宅・近い)","lunch"],["30分くらいまで","morning"],["30分〜1時間","commute"],["1時間以上","commute"]] },
+  { t:"疲れていないのは、1日のいつごろ?", a:[["朝","morning"],["昼","lunch"],["夜","night"],["休日なら一日中","weekend"]] },
+  { t:"家族や家のことで、予定が急に変わることは?", a:[["よくある","commute"],["ときどきある","lunch"],["あまりない","night"],["休日にまとめて動くことが多い","weekend"]] },
+  { t:"「15分だけ」と言われたら、やりたいのは?", a:[["静かに本や資料を読む","commute"],["手を動かして書く・作る","morning"],["体を動かす","lunch"],["ゆっくり考えて計画する","weekend"]] }
+];
+
+var TYPES = {
+  morning: { n:"朝の15分型", d:"家族が起きる前や、家を出る前の静かな時間が使いやすいタイプです。頭がさえている朝に、いちばん手間のかかることを置きます。",
+    i:["起きて着替えたら、タイマーを15分にして「書く」か「考える」ことを1つだけやる","前の晩に、翌朝やることを1行だけメモしておく(迷う時間をなくす)","できなかった日は取り戻さず、次の朝に1回分だけやる"],
+    nt:"朝は予定が割り込みにくい反面、睡眠を削ると続きません。起きる時間を早めるときは、10分ずつにしてください。" },
+  commute: { n:"通勤のすき間型", d:"電車やバスの中など、毎日同じ時間に同じ場所にいられるタイプです。道具はスマートフォン1つで足ります。",
+    i:["往路の15分で、本を読む・音声を聞くなど「入れる」ことをする","復路の15分で、その日の気づきを1〜2行メモする(「出す」)","立ちっぱなしの日は、聞くだけの日にして、無理に画面を見ない"],
+    nt:"座れない日や混む日は、何もしない日にしてかまいません。「週に3日できれば合格」くらいの目標で続けます。" },
+  lunch: { n:"昼休みの15分型", d:"仕事のあいだに区切りがあり、体を動かす余裕があるタイプです。食後の15分は、頭を切り替える時間にもなります。",
+    i:["食べ終わったら外に出て、15分歩く(体を動かすと午後が楽になります)","机で、やることリストを3行だけ整える","目を閉じて5分休み、残り10分で短い読み物を読む"],
+    nt:"昼休みは削りすぎると午後が疲れます。週に2〜3回、決めた日だけにすると続きます。" },
+  night: { n:"夜の15分型", d:"家のことが落ち着いた夜に、自分の時間が取れるタイプです。ただし、疲れが出やすい時間なので、軽いことから始めます。",
+    i:["寝る前の15分は、画面を見ずに「紙のメモ」に今日あったことを3行書く","お風呂のあとの15分で、明日の準備を1つだけ済ませる","ベッドに入る前に、スマートフォンを別の場所に置く"],
+    nt:"夜に頑張りすぎると、睡眠が削られます。夜は「ためる」より「整える」時間にして、睡眠は守ってください。" },
+  weekend: { n:"休日まとめ型", d:"平日は動きにくいものの、休日にまとめて時間を取れるタイプです。ただし、長い時間を一度に使うより、15分に区切るほうが続きます。",
+    i:["休日の朝に、15分×3回(合計45分)を、時刻を決めて入れる","1回ごとに「今日はここまで」と区切りを決めて終える","日曜の夜に、翌週の平日で使えそうな15分を2か所だけ探す"],
+    nt:"休日は予定が入りやすいので、「やる日」と「休む日」を先に決めておくと、気持ちが楽になります。" }
+};
+
+var form = document.getElementById("quiz");
+QS.forEach(function(q, i){
+  var d = document.createElement("div"); d.className = "q";
+  var p = document.createElement("p"); p.textContent = "Q" + (i+1) + ". " + q.t; d.appendChild(p);
+  q.a.forEach(function(a){
+    var l = document.createElement("label"), r = document.createElement("input");
+    r.type = "radio"; r.name = "q" + i; r.value = a[1];
+    l.appendChild(r); l.appendChild(document.createTextNode(a[0])); d.appendChild(l);
+  });
+  form.appendChild(d);
+});
+
+function el(id){ return document.getElementById(id); }
+
+el("go").onclick = function(){
+  var score = {}, ok = true;
+  QS.forEach(function(q, i){
+    var c = form.querySelector('input[name="q' + i + '"]:checked');
+    if (!c) { ok = false; return; }
+    score[c.value] = (score[c.value] || 0) + 1;
+  });
+  el("msg").hidden = ok;
+  if (!ok) return;
+  var best = null;
+  Object.keys(score).forEach(function(k){ if (best === null || score[k] > score[best]) best = k; });
+  var t = TYPES[best];
+  el("rtitle").textContent = "あなたは「" + t.n + "」です";
+  el("rdesc").textContent = t.d;
+  el("rnote").textContent = t.nt;
+  var ul = el("rideas"); ul.innerHTML = "";
+  t.i.forEach(function(s){ var li = document.createElement("li"); li.textContent = s; ul.appendChild(li); });
+  var b = el("book"); b.innerHTML = "";
+  var p = document.createElement("p");
+  p.textContent = "ほかの時間の見つけ方や、1年で約200時間にする計算は、本にまとめています。";
+  b.appendChild(p);
+  if (BOOK_URL) {
+    var a = document.createElement("a"); a.href = BOOK_URL; a.rel = "noopener sponsored";
+    a.textContent = "Amazonで本を見る(Kindle版)"; b.appendChild(a);
+    el("aff").hidden = false;
+  } else {
+    var s = document.createElement("p"); s.className = "sub";
+    s.textContent = "『" + BOOK_TITLE + "』は、近日発売予定です。"; b.appendChild(s);
+  }
+  el("quiz").hidden = true; el("go").parentNode.hidden = true;
+  el("result").hidden = false; window.scrollTo(0, 0);
+};
+el("again").onclick = function(){
+  form.reset(); el("result").hidden = true; el("quiz").hidden = false;
+  el("go").parentNode.hidden = false; window.scrollTo(0, 0);
+};
+</script>
+</body>
+</html>
